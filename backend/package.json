@@ -1,0 +1,8 @@
+{
+  "name": "quizgame-server",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "install": "^0.10.2"
+  }
+}
