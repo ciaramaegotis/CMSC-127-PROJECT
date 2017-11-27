@@ -1,0 +1,25 @@
+#centerTitle{
+    width:100%;
+    height:200px;
+    margin: auto;
+}
+
+#centerButton{
+	width: 25%;
+    height:100px;
+    margin: auto;
+    text-align: center;
+}
+
+.Home{
+  min-height: 100%;
+  height: auto;
+  width: 100%;
+  background-color: white;
+  top:0;
+  left:0;
+  position: absolute;
+}
+
+
+
