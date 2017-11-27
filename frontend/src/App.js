@@ -4,6 +4,7 @@ import Home from './Home';
 import Buy from './Buy';
 import StartTransaction from './StartTransaction';
 import ViewStocks from './ViewStocks';
+import Edit from './Edit';
 class App extends Component {
   render() {
     return (
@@ -13,7 +14,8 @@ class App extends Component {
         <Route exact={true} path="/" component={Home}/>
         <Route exact={true} path="/Buy" component={Buy}/>
         <Route exact={true} path="/StartTransaction" component={StartTransaction}/>
-        <Route exact={true} path="/ViewStocks" component={ViewStocks}/>   
+        <Route exact={true} path="/ViewStocks" component={ViewStocks}/> 
+        <Route exact={true} path="/Edit" component={Edit}/>  
         </div>
       </Router>
       </div>
