@@ -10,7 +10,7 @@ class Home extends Component {
           <i className ="circular empty star icon"></i>
           <button id = "centerButton" className = "ui inverted button ui center aligned button" onClick={()=>{window.location="/Buy"}}> Buy </button>
         <button id = "centerButton" className = "ui inverted button ui center aligned button" onClick={()=>{window.location="/StartTransaction"}}> Start Transaction </button>
-        <button id = "centerButton" className = "ui inverted button ui center aligned button" onClick={()=>{window.location="/ViewStocks"}}> View Stocks </button>
+        <button id = "centerButton" className = "ui inverted button ui center aligned button" onClick={()=>{window.location="/View"}}> View </button>
         <button id = "centerButton" className = "ui inverted button ui center aligned button" onClick={()=>{window.location="/Edit"}}> Edit </button>
         </h2>
       </div>

@@ -24,6 +24,8 @@
 #background{
   background-image: url('./background.jpg');
   background-size: 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   font-size: 6.0em;
 }
 

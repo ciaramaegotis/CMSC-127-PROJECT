@@ -24,12 +24,29 @@ class EditTransaction extends Component {
         <button class = "large ui inverted button"> Search </button>
       </div>
       <h2 class="ui dividing header">OR</h2>  
-      <div class="field">
-        <input type="text" name="shipping[last-name]" placeholder="Branch Name"/>
+      <div class = "ui grid">
+        <div class="eight wide column">
+          <input type="date" name="shipping[last-name]" placeholder="Date"/>
+        </div>
+        <div class="eight wide column">
+          <input type="time" name="shipping[last-name]" placeholder="Time"/>
+        </div>
+      </div> 
+      <br/>
+      <div class = "field">
+        <input type="number" name="" placeholder="Card Number"/>
       </div>
-
+      <div class = "ui grid">
+        <div class="eight wide column">
+          <input type="number" name="shipping[last-name]" placeholder="Cash Payment"/>
+        </div>
+        <div class="eight wide column">
+          <input type="number" name="shipping[last-name]" placeholder="Reward Point Payment"/>
+        </div>
+      </div> 
+      <br/>
       <div class="field">
-        <input type="text" name="shipping[last-name]" placeholder="Branch Location"/>
+        <input type = "number" name = "" placeholder="Accumulated Reward Points"/>
       </div>
     </div>  
     <br/>  

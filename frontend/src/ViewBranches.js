@@ -2,34 +2,35 @@ import React, { Component } from 'react';
 import './assets/semanticUI/semantic.min.css';
 import './assets/main.css';
 
-class Buy extends Component {
+
+
+class ViewBranches extends Component {
   constructor(props){
     super(props);
     this.state = {
-      productList: []
+      branchesList: []
     }
+
   }
-
   componentDidMount(){
-    fetch('http://localhost:1337/all-product')
+    fetch('http://localhost:1337/all-branch')
     .then((response)=>{return response.json()})
-    .then((result)=>{this.setState({productList: result})})
-    .then(()=>{console.log(this.state.productList);})
+    .then((result)=>{this.setState({branchesList: result})})
+    .then(()=>{console.log(this.state.branchesList);})
     .catch((e)=>{console.log(e);});
-
   }
   render() {
     return (
       <div>
-        <ProductTable values={this.state.productList}/>
+      <BranchesTable values={this.state.branchesList}/>
       </div>
     );
   }
 }
 
-export default Buy;
+export default ViewBranches;
 
-class ProductTable extends Component{
+class BranchesTable extends Component{
   render(){
     return(
       <div className="center aligned one column row" id = "centerTitle">
@@ -41,10 +42,9 @@ class ProductTable extends Component{
               <table class="ui small selectable celled inverted blue table">
       <thead>
         <tr>
-          <th>Product Number</th>
-          <th>Product Name</th>
-          <th>Product Price</th>
-          <th>Branch ID</th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Location</th>
         </tr>
       </thead>
       <tbody>
@@ -53,10 +53,9 @@ class ProductTable extends Component{
               (item, index)=>{
                 return(
                   <tr key={index}>
-                    <th>{item.Product_number}</th>
-                    <th>{item.Product_name}</th>
-                    <th>{item.Product_price}</th>
                     <th>{item.Branch_id}</th>
+                    <th>{item.Branch_name}</th>
+                    <th>{item.Branch_location}</th>
                   </tr>
                 )
               }

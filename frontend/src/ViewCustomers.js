@@ -2,34 +2,32 @@ import React, { Component } from 'react';
 import './assets/semanticUI/semantic.min.css';
 import './assets/main.css';
 
-class Buy extends Component {
+class ViewCustomers extends Component {
   constructor(props){
     super(props);
     this.state = {
-      productList: []
+      customerList: []
     }
   }
-
   componentDidMount(){
-    fetch('http://localhost:1337/all-product')
-    .then((response)=>{return response.json()})
-    .then((result)=>{this.setState({productList: result})})
-    .then(()=>{console.log(this.state.productList);})
+    fetch('http://localhost:1337/all-customer')
+    .then((response) => {return response.json()})
+    .then((result)=> {this.setState({customerList: result})})
+    .then(()=>{console.log(this.state.customerList)})
     .catch((e)=>{console.log(e);});
-
   }
   render() {
     return (
       <div>
-        <ProductTable values={this.state.productList}/>
+        <CustomerTable values={this.state.customerList}/>
       </div>
     );
   }
 }
 
-export default Buy;
+export default ViewCustomers;
 
-class ProductTable extends Component{
+class CustomerTable extends Component{
   render(){
     return(
       <div className="center aligned one column row" id = "centerTitle">
@@ -41,9 +39,10 @@ class ProductTable extends Component{
               <table class="ui small selectable celled inverted blue table">
       <thead>
         <tr>
-          <th>Product Number</th>
-          <th>Product Name</th>
-          <th>Product Price</th>
+          <th>Card Number</th>
+          <th>Customer Name</th>
+          <th>Total Reward Points</th>
+          <th>Complete Address</th>
           <th>Branch ID</th>
         </tr>
       </thead>
@@ -53,9 +52,10 @@ class ProductTable extends Component{
               (item, index)=>{
                 return(
                   <tr key={index}>
-                    <th>{item.Product_number}</th>
-                    <th>{item.Product_name}</th>
-                    <th>{item.Product_price}</th>
+                    <th>{item.Card_number}</th>
+                    <th>{item.Customer_name}</th>
+                    <th>{item.Reward_points}</th>
+                    <th>{item.Address}</th>
                     <th>{item.Branch_id}</th>
                   </tr>
                 )

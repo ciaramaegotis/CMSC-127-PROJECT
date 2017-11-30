@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var branchno = 1;
 
 app.get('/all-branch', function(req, res){
-	connection.query("select * from BRANCH where bra", function(error, rows, fields){
+	connection.query("select * from BRANCH", function(error, rows, fields){
 		if (error){
 			console.log("error in the query");
 		}else{
@@ -122,9 +122,5 @@ app.get('/all-stock', function(req, res){
 		}
 	});
 });
-
-
-
-
 
 app.listen(1337);
