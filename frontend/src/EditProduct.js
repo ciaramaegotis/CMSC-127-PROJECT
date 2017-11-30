@@ -3,6 +3,32 @@ import './assets/semanticUI/semantic.min.css';
 import './assets/main.css';
 
 class EditProduct extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      branchList: []
+    }
+  }
+
+  componentDidMount(){
+    fetch('http://localhost:1337/all-branch')
+    .then((response) => {return response.json()})
+    .then((result)=> {this.setState({branchList: result})})
+    .then(()=>{console.log(this.state.branchList)})
+    .catch((e)=>{console.log(e);});
+  }
+
+  render(){
+    return(
+      <div>
+        <ProductTable values = {this.state.branchList}/>
+      </div>
+    );
+  }
+}
+export default EditProduct;
+
+class ProductTable extends Component{
   render() {
     return (
       <div className="center aligned one column row" id = "centerTitle">
@@ -35,19 +61,15 @@ class EditProduct extends Component {
         </div>
         <div class="eight wide column">
           <select class="ui fluid search dropdown" name="card[expire-month]">
-            <option value="">Branch</option>
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
+            {
+              this.props.values.map(
+              (item, index)=>{
+                return(
+                  <option value={item.Branch_id}> {item.Branch_name}</option>
+                )
+              }
+            )
+            }
           </select>
         </div>
       </div>    
@@ -74,4 +96,3 @@ class EditProduct extends Component {
   }
 }
 
-export default EditProduct;

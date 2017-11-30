@@ -126,6 +126,7 @@ app.get('/all-stock', function(req, res){
 app.get('/delete=:id', function(req, res){
 	const idToDelete = req.params.id;
 	console.log("received" + req.params.id + "hahahah");
+	console.log("delete from CUSTOMER where Card_number = " + idToDelete);
 	connection.query("delete from CUSTOMER where Card_number = " + idToDelete, function(error, rows, fields){
 		if (error){
 			console.log("error in the query");
@@ -143,8 +144,10 @@ app.get('/new-customer/name=:inputName&address=:inputAddress&branch=:inputBranch
 	console.log("insert into CUSTOMER(Customer_name, Address, Branch_id) values(\""+newName+"\", \""+newAddress+"\" ," +newBranch+")");
 	connection.query("insert into CUSTOMER(Customer_name, Address, Branch_id) values(\""+newName+"\", \""+newAddress+"\" ," +newBranch+")", function(error, rows, fields){
 		if (error){
-			console.log("error in the query");
+			console.log(error);
+			alert(error);
 		}else{
+			alert("query done.");
 			res.send(rows);
 		}
 	});

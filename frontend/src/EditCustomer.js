@@ -109,12 +109,14 @@ class CustomerTable extends Component{
   }
 
   deleteCustomer(e){
+    console.log('http://localhost:1337/delete='+this.state.cardNumber);
     fetch('http://localhost:1337/delete='+this.state.cardNumber)
     .then((response)=>{return response.json()})
     .then((result)=>{console.log("success in the query");})
     .catch((e)=>{
       console.log("Not Found!");
     })
+    window.location="/";
   }
   render() {
     console.log(this.state);
