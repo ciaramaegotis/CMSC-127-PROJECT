@@ -78,4 +78,3 @@ CREATE table STOCK(
 	Stock int(10),
 	CONSTRAINT stock_branch_id_pk PRIMARY KEY(Branch_id, Product_name)
 );
-

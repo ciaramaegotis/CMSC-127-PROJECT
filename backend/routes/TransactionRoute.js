@@ -27,6 +27,6 @@ const TransactionController = require('../controllers/TransactionController');
 // router.get('/find-by-id/:_id', MovieController.findById);
 // router.post('/add', MovieController.add);
 // router.post('/delete', MovieController.delete);
-router.get('/getquiz/category1=:cat1&category2=:cat2&category3=:cat3&count=:n', TransactionController.getquiz);
-router.get('/findAll', TransactionController.findAll);
+router.get('/', TransactionController.findAll);
+router.get('/numberone', TransactionController.numberone);
 module.exports = router;

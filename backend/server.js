@@ -1,11 +1,13 @@
 var express = require('express');
 var mysql = require('mysql');
 var app = express();
+
+
 var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
 	password: 'ciaralovesgod',
-	database: 'uaap'
+	database: 'sixtenrewards'
 });
 
 connection.connect(function(error){
@@ -38,27 +40,91 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Setup Routes
 // const TransactionRoute = require('./routes/TransactionRoute');
 // app.use('/', TransactionRoute);
+var branchno = 1;
 
-app.get('/', function(req, res){
-	connection.query("select * from cheerdance", function(error, rows, fields){
+app.get('/all-branch', function(req, res){
+	connection.query("select * from BRANCH where bra", function(error, rows, fields){
 		if (error){
 			console.log("error in the query");
 		}else{
-			console.log("SUCESS" + rows[0].membername);
-			res.send(rows[0].membername);
+			console.log("SUCESS");
+			res.send(rows);
 		}
 	});
 });
 
-app.get('/numberone', function(req, res){
-	connection.query("select * from cheerdance", function(error, rows, fields){
+app.get('/all-customer', function(req, res){
+	connection.query("select * from CUSTOMER", function(error, rows, fields){
 		if (error){
 			console.log("error in the query");
 		}else{
-			res.send(rows[3].membername);
+			res.send(rows);
 		}
 	});
 });
+
+app.get('/all-transaction', function(req, res){
+	connection.query("select * from TRANSACTION", function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/all-product', function(req, res){
+	connection.query("select * from PRODUCT", function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/all-promostar', function(req, res){
+	connection.query("select * from PROMOSTAR", function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/all-spent-promostar', function(req, res){
+	connection.query("select * from PRODUCT_SPENT_PROMOSTAR", function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/all-accumulated-promostar', function(req, res){
+	connection.query("select * from PRODUCT_ACCUMMULATED_PROMOSTAR", function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/all-stock', function(req, res){
+	connection.query("select * from STOCK", function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+
+
+
 
 app.listen(1337);
-
