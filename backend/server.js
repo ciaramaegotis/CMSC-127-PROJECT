@@ -123,4 +123,33 @@ app.get('/all-stock', function(req, res){
 	});
 });
 
+app.get('/delete=:id', function(req, res){
+	const idToDelete = req.params.id;
+	console.log("received" + req.params.id + "hahahah");
+	connection.query("delete from CUSTOMER where Card_number = " + idToDelete, function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+	
+});
+
+app.get('/new-customer/name=:inputName&address=:inputAddress&branch=:inputBranch', function(req, res){
+	const newName = req.params.inputName;
+	const newAddress = req.params.inputAddress;
+	const newBranch = req.params.inputBranch;
+	console.log("insert into CUSTOMER(Customer_name, Address, Branch_id) values(\""+newName+"\", \""+newAddress+"\" ," +newBranch+")");
+	connection.query("insert into CUSTOMER(Customer_name, Address, Branch_id) values(\""+newName+"\", \""+newAddress+"\" ," +newBranch+")", function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+	
+});
+
+
 app.listen(1337);

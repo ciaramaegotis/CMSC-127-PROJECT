@@ -14,7 +14,7 @@ CREATE table BRANCH(
 CREATE table CUSTOMER(
 	Card_number int(10) AUTO_INCREMENT,
 	Customer_name varchar(50),
-	Reward_points int(10),
+	Reward_points int(10) DEFAULT 0,
 	Address varchar(100),
 	Branch_id int(10),
 	CONSTRAINT customer_branch_id_fk FOREIGN KEY(Branch_id) REFERENCES
