@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import './assets/semanticUI/semantic.min.css';
 import './assets/main.css';
 
-class ViewCustomers extends Component {
+
+class ViewCustomers extends Component{
   constructor(props){
     super(props);
     this.state = {
+      searchQuery: '',
       customerList: []
     }
+
+    this.handleSearch = this.handleSearch.bind(this);
   }
+
   componentDidMount(){
     fetch('http://localhost:1337/all-customer')
     .then((response) => {return response.json()})
@@ -16,27 +21,31 @@ class ViewCustomers extends Component {
     .then(()=>{console.log(this.state.customerList)})
     .catch((e)=>{console.log(e);});
   }
-  render() {
-    return (
-      <div>
-        <CustomerTable values={this.state.customerList}/>
-      </div>
-    );
+
+  handleSearch(e){
+    this.setState({searchQuery: e.target.value});
+    fetch('http://localhost:1337/search-customer-by-name/name='+e.target.value)
+    .then((response)=>{return response.json()})
+    .then((result)=>{this.setState({customerList: result})})
+    .then(()=>{console.log(this.state.customerList)})
+    .then(()=>{this.setState(this.state)})
+    .catch((e)=>{
+      console.log(e);
+    })
   }
-}
 
-export default ViewCustomers;
-
-class CustomerTable extends Component{
   render(){
     return(
       <div className="center aligned one column row" id = "centerTitle">
         <h2 className ="ui center aligned icon header">
           <i className ="circular empty star icon"></i>
-          <div class="ui grid">
-            <div class="four wide column"></div>
-            <div class="eight wide column">
-              <table class="ui small selectable celled inverted blue table">
+          <div className = "ui grid">
+            <div className = "four wide column"></div>
+            <div className = "eight wide column">
+            <div className = "ui small input">
+              <input type="text" onChange={this.handleSearch} value = {this.state.searchQuery} placeholder="Search name..."/>
+            </div>
+              <table className = "ui small selectable celled inverted blue table">
       <thead>
         <tr>
           <th>Card Number</th>
@@ -48,7 +57,7 @@ class CustomerTable extends Component{
       </thead>
       <tbody>
           {
-            this.props.values.map(
+            this.state.customerList.map(
               (item, index)=>{
                 return(
                   <tr key={index}>
@@ -65,7 +74,7 @@ class CustomerTable extends Component{
       </tbody>
     </table>
             </div>
-            <div class="four wide column"></div>
+            <div className = "four wide column"></div>
           </div>
     <br/>
     <button className = "massive ui inverted button" onClick={()=>{window.location="/"}}>Back to Home</button>
@@ -74,3 +83,5 @@ class CustomerTable extends Component{
     );
   }
 }
+
+export default ViewCustomers;

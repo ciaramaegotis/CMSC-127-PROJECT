@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import './assets/semanticUI/semantic.min.css';
 import './assets/main.css';
 
-class EditProduct extends Component {
+
+class EditProducts extends Component{
   constructor(props){
     super(props);
     this.state = {
-      branchList: []
+      branchList: [],
+      currentBranch: 0
     }
+
   }
 
   componentDidMount(){
@@ -18,17 +21,6 @@ class EditProduct extends Component {
     .catch((e)=>{console.log(e);});
   }
 
-  render(){
-    return(
-      <div>
-        <ProductTable values = {this.state.branchList}/>
-      </div>
-    );
-  }
-}
-export default EditProduct;
-
-class ProductTable extends Component{
   render() {
     return (
       <div className="center aligned one column row" id = "centerTitle">
@@ -40,9 +32,6 @@ class ProductTable extends Component{
           <form class="ui form">
   <h2 class="ui dividing header">Product Information</h2>
   <div class="field">
-    
-
-
       <div class="field">
         <input type="number" name="shipping[first-name]" placeholder="Enter product number.."/>
       </div>
@@ -62,7 +51,7 @@ class ProductTable extends Component{
         <div class="eight wide column">
           <select class="ui fluid search dropdown" name="card[expire-month]">
             {
-              this.props.values.map(
+              this.state.branchList.map(
               (item, index)=>{
                 return(
                   <option value={item.Branch_id}> {item.Branch_name}</option>
@@ -95,4 +84,6 @@ class ProductTable extends Component{
     );
   }
 }
+
+export default EditProducts;
 

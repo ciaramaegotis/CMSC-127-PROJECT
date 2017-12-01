@@ -3,8 +3,7 @@ import './assets/semanticUI/semantic.min.css';
 import './assets/main.css';
 
 
-
-class ViewBranches extends Component {
+class ViewBranches extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -19,18 +18,6 @@ class ViewBranches extends Component {
     .then(()=>{console.log(this.state.branchesList);})
     .catch((e)=>{console.log(e);});
   }
-  render() {
-    return (
-      <div>
-      <BranchesTable values={this.state.branchesList}/>
-      </div>
-    );
-  }
-}
-
-export default ViewBranches;
-
-class BranchesTable extends Component{
   render(){
     return(
       <div className="center aligned one column row" id = "centerTitle">
@@ -49,7 +36,7 @@ class BranchesTable extends Component{
       </thead>
       <tbody>
           {
-            this.props.values.map(
+            this.state.branchesList.map(
               (item, index)=>{
                 return(
                   <tr key={index}>
@@ -73,3 +60,4 @@ class BranchesTable extends Component{
     );
   }
 }
+export default ViewBranches;

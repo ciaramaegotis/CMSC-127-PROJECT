@@ -40,10 +40,11 @@ CREATE table TRANSACTION(
 
 CREATE table PRODUCT(
 	Product_number int(10) AUTO_INCREMENT,
+	Branch_id int(10),
 	Product_name varchar(50),
 	Product_price float(10, 5),
-	Branch_id int(10),
-	CONSTRAINT product_product_number_pk PRIMARY KEY(Product_number),
+	Product_stock int(10) DEFAULT 0,
+	CONSTRAINT product_product_number_branch_id_pk PRIMARY KEY(Product_number, Branch_id),
 	CONSTRAINT product_branch_id_fk FOREIGN KEY(Branch_id) REFERENCES BRANCH(Branch_id)
 );
 
@@ -72,12 +73,6 @@ CREATE table PRODUCT_ACCUMULATED_PROMOSTAR(
 	CONSTRAINT product_accumulated_promostar_transaction_number_fk FOREIGN KEY(Transaction_number) REFERENCES PROMOSTAR(Control_number)
 );
 
-CREATE table STOCK(
-	Branch_id int(10),
-	Product_name varchar(50),
-	Stock int(10),
-	CONSTRAINT stock_branch_id_pk PRIMARY KEY(Branch_id, Product_name)
-);
 
 #BRANCH(​ Branch​ ​ ID​ , ​ ​ Branch​ ​ Name,​ ​ Location)
 insert into BRANCH(Branch_name, Branch_location) values("Pruto Store", "Near UPLB");
@@ -99,14 +94,14 @@ insert into CUSTOMER(Customer_name, Reward_points, Address, Branch_id) values("N
 insert into CUSTOMER(Customer_name, Reward_points, Address, Branch_id) values("nameeeeee", 0, "Di ko na alam", 5);
 
 #PRODUCT(​ Product​ ​ Number,​​ ​ Product​ ​ Name,​ ​ Product​ ​ Price,​ ​ Branch ​ ​ ID ​ )
-insert into PRODUCT(Product_name, Product_price, Branch_id) values("Knees and Shoulders", 25, 1);
-insert into PRODUCT(Product_name, Product_price, Branch_id) values("Magic Sarap", 5.25, 4);
-insert into PRODUCT(Product_name, Product_price, Branch_id) values("Knorr Cubes", 10.50, 6);
-insert into PRODUCT(Product_name, Product_price, Branch_id) values("Crab and Corn Soup", 25, 1);
-insert into PRODUCT(Product_name, Product_price, Branch_id) values("Safeguard", 15, 4);
-insert into PRODUCT(Product_name, Product_price, Branch_id) values("Zonrox", 20, 2);
-insert into PRODUCT(Product_name, Product_price, Branch_id) values("Pruto anti kuto shampoo", 200, 1);
-insert into PRODUCT(Product_name, Product_price, Branch_id) values("Palamig", 5, 3);
+insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) values("Knees and Shoulders", 25, 1, 2);
+insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) values("Magic Sarap", 5.25, 4, 6);
+insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) values("Knorr Cubes", 10.50, 6, 0);
+insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) values("Crab and Corn Soup", 25, 1, 10);
+insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) values("Safeguard", 15, 4, 0);
+insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) values("Zonrox", 20, 2, 5);
+insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) values("Pruto anti kuto shampoo", 200, 1, 0);
+insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) values("Palamig", 5, 3, 2);
 
 #TRANSACTION(​ Transaction​ ​ Number,​​ ​ DateAndTime,​ ​ Payment​ ​ Cash,​ ​ Payment​ ​ Reward,​ ​ Accumulated Reward​ ​ Points,​ ​ Card ​ ​ Number, ​ ​ Branch ​ ​ ID ​ )
 insert into TRANSACTION(Date_and_time, Cash_payment, Reward_point_payment, Accumulated_reward_points, Card_number, Branch_id) values('2009/07/16 08:28:01', 150, 10, 15, 1, 1);

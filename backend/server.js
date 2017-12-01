@@ -170,4 +170,34 @@ app.get('/update-customer/name=:inputName&address=:inputAddress&branch=:inputBra
 });
 
 
+app.get('/search-customer-by-name/name=:inputName', function(req, res){
+	const newName = req.params.inputName;
+	console.log("select * from CUSTOMER where Customer_name=\""+newName+"\"");
+	connection.query("select * from CUSTOMER where Customer_name=\""+newName+"\"", function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			console.log("nice one");
+			res.send(rows);
+		}
+	});
+	
+});
+
+app.get('/show-products-by-branch/id=:inputBranch', function(req, res){
+	const newBranch = req.params.inputBranch;
+	console.log("select * from PRODUCT where Branch_id="+newBranch+" and Product_stock != 0");
+	connection.query("select * from PRODUCT where Branch_id="+newBranch+" and Product_stock != 0", function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
 app.listen(1337);

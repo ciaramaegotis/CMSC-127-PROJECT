@@ -36,7 +36,7 @@ class CustomerTable extends Component{
       customerName: '',
       rewardPoints: '',
       address: '',
-      branchID: 1
+      branchID: 0
     }
     this.searchCustomer = this.searchCustomer.bind(this);
     this.addCustomer = this.addCustomer.bind(this);
@@ -77,19 +77,23 @@ class CustomerTable extends Component{
   }
   searchCustomer(e){
     var i = 0;
+    var isFound = 0;
     console.log(this.state.customerList);
     for(i = 0; i < this.state.customerList.length;++i){
       console.log(this.state.cardNumber + " " + this.state.customerList[i].Card_number);
       if(this.state.cardNumber == this.state.customerList[i].Card_number){
+        try{
+          this.setState({customerName: this.state.customerList[i].Customer_name, address: this.state.customerList[i].Address, branchID: this.state.customerList[i].Branch_id});
+        }catch(e){
+          alert(e);
+        }
+        isFound = 1;
         break;
       }
     }
-    try{
-      this.setState({customerName: this.state.customerList[i].Customer_name, address: this.state.customerList[i].Address, branchID: this.state.customerList[i].Branch_id});
-    }catch(e){
-      alert("Customer not found.");
-    }
-    
+    if (isFound == 0){
+      alert("Customer not found");
+    }  
   }
 
   addCustomer(e){
@@ -151,32 +155,16 @@ class CustomerTable extends Component{
       <div className = "field">
         <input type="text" value = {this.state.customerName} onChange={this.handleName} placeholder="Name"/>
       </div>
-   
-  </div>
-  <div className = "field">
-    <div className = "fields">
-      <div className = "twelve wide field">
+      <div className = "field">
         <input type="text" value = {this.state.address} onChange={this.handleAddress} placeholder="Permanent Address Address"/>
       </div>
-
-      <div className = "four wide field">
-        <div className = "field">
-          <select className = "ui fluid search dropdown" onChange={this.handleBranch}>
-            {
-              this.props.values.map(
-              (item, index)=>{
-                return(
-                  <option value={item.Branch_id}> {item.Branch_name}</option>
-                )
-              }
-            )
-            }
-          </select>
-        </div>
+      <h3 className = "ui dividing header">BRANCH ID</h3>
+      <div className = "disabled field">
+        <input type="number" value = {this.state.branchID} onChange={this.handleBranch} placeholder="Branch Name"/>
       </div>
-    </div>
-    </div>    
+  </div>   
 </form>
+ <br/>
 <div className = "ui grid">
   <div className = "four wide column"><button className = "massive ui red inverted button" onClick={this.deleteCustomer}>Delete</button></div>
   <div className = "six wide column">
