@@ -6,8 +6,15 @@ class Buy extends Component {
   constructor(props){
     super(props);
     this.state = {
-      productList: []
+      productList: [],
+      shoppingList: []
     }
+    this.addProduct = this.addProduct.bind(this);
+  }
+
+  addProduct(e){
+    console.log(e.target.value);
+    this.state.shoppingList.push(e.target.value);
   }
 
   componentDidMount(){
@@ -35,16 +42,17 @@ class ProductTable extends Component{
       <div className="center aligned one column row" id = "centerTitle">
         <h2 className ="ui center aligned icon header">
           <i className ="circular empty star icon"></i>
-          <div class="ui grid">
-            <div class="four wide column"></div>
-            <div class="eight wide column">
-              <table class="ui small selectable celled inverted blue table">
+          <div className = "ui grid">
+            <div className = "four wide column"></div>
+            <div className = "eight wide column">
+              <table className ="ui fixed small selectable celled inverted blue table">
       <thead>
         <tr>
           <th>Product Number</th>
           <th>Product Name</th>
           <th>Product Price</th>
           <th>Branch ID</th>
+          <th>Buy</th>
         </tr>
       </thead>
       <tbody>
@@ -57,6 +65,9 @@ class ProductTable extends Component{
                     <th>{item.Product_name}</th>
                     <th>{item.Product_price}</th>
                     <th>{item.Branch_id}</th>
+                    <th id="center">
+                      <button value = {index} className = "ui inverted button" onClick={this.addProduct}>Buy</button>
+                    </th>
                   </tr>
                 )
               }
@@ -65,7 +76,7 @@ class ProductTable extends Component{
       </tbody>
     </table>
             </div>
-            <div class="four wide column"></div>
+            <div className = "four wide column"></div>
           </div>
     <br/>
     <button className = "massive ui inverted button" onClick={()=>{window.location="/"}}>Back to Home</button>
