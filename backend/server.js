@@ -130,6 +130,7 @@ app.get('/delete=:id', function(req, res){
 	connection.query("delete from CUSTOMER where Card_number = " + idToDelete, function(error, rows, fields){
 		if (error){
 			console.log("error in the query");
+			res.send(error);
 		}else{
 			res.send(rows);
 		}

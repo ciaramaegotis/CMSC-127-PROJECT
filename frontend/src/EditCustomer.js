@@ -34,7 +34,7 @@ class CustomerTable extends Component{
     this.state = {
       cardNumber: '',
       customerName: '',
-      rewardPoints: '',
+      rewardPoints: 0,
       address: '',
       branchID: 0
     }
@@ -46,6 +46,7 @@ class CustomerTable extends Component{
     this.handleName = this.handleName.bind(this);
     this.handleAddress = this.handleAddress.bind(this);
     this.handleBranch = this.handleBranch.bind(this);
+    this.handleReward = this.handleReward.bind(this);
   }
   componentDidMount(){
     fetch('http://localhost:1337/all-customer')
@@ -54,6 +55,11 @@ class CustomerTable extends Component{
     .then(()=>{console.log(this.state.customerList)})
     .catch((e)=>{console.log(e);});
 
+  }
+
+  handleReward(e){
+    this.setState({rewardPoints: e.target.value});
+    console.log("received reward points change" + e.target.value);
   }
 
   handleBranch(e){
@@ -83,7 +89,7 @@ class CustomerTable extends Component{
       console.log(this.state.cardNumber + " " + this.state.customerList[i].Card_number);
       if(this.state.cardNumber == this.state.customerList[i].Card_number){
         try{
-          this.setState({customerName: this.state.customerList[i].Customer_name, address: this.state.customerList[i].Address, branchID: this.state.customerList[i].Branch_id});
+          this.setState({customerName: this.state.customerList[i].Customer_name, address: this.state.customerList[i].Address, branchID: this.state.customerList[i].Branch_id, rewardPoints: this.state.customerList[i].Reward_points});
         }catch(e){
           alert(e);
         }
@@ -158,8 +164,11 @@ class CustomerTable extends Component{
       <div className = "field">
         <input type="text" value = {this.state.address} onChange={this.handleAddress} placeholder="Permanent Address Address"/>
       </div>
+      <div className = "field">
+        <input type="number" value = {this.state.rewardPoints} onChange={this.handleReward} placeholder="Accumulated Points"/>
+      </div>
       <h3 className = "ui dividing header">BRANCH ID</h3>
-      <div className = "disabled field">
+      <div className = "field">
         <input type="number" value = {this.state.branchID} onChange={this.handleBranch} placeholder="Branch Name"/>
       </div>
   </div>   

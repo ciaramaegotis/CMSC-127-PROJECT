@@ -52,6 +52,8 @@ class Buy extends Component{
 
   checkOut(e){
     console.log(this.state.shoppingList);
+    alert('Thank you for purchasing!');
+    window.location = "/";
   }
 
   render(){
