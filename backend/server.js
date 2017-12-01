@@ -144,10 +144,25 @@ app.get('/new-customer/name=:inputName&address=:inputAddress&branch=:inputBranch
 	console.log("insert into CUSTOMER(Customer_name, Address, Branch_id) values(\""+newName+"\", \""+newAddress+"\" ," +newBranch+")");
 	connection.query("insert into CUSTOMER(Customer_name, Address, Branch_id) values(\""+newName+"\", \""+newAddress+"\" ," +newBranch+")", function(error, rows, fields){
 		if (error){
-			console.log(error);
-			alert(error);
+			res.send(error);
 		}else{
-			alert("query done.");
+			res.send(rows);
+		}
+	});
+	
+});
+
+app.get('/update-customer/name=:inputName&address=:inputAddress&branch=:inputBranch&id=:id', function(req, res){
+	const newName = req.params.inputName;
+	const newAddress = req.params.inputAddress;
+	const newBranch = req.params.inputBranch;
+	const identifier = req.params.id;
+	console.log("update CUSTOMER set Customer_name=\""+newName+"\", Address=\""+newAddress+"\", Branch_id=" +newBranch+" where Card_number="+identifier);
+	connection.query("update CUSTOMER set Customer_name=\""+newName+"\", Address=\""+newAddress+"\", Branch_id=" +newBranch+" where Card_number="+identifier, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
 			res.send(rows);
 		}
 	});

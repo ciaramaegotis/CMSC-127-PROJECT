@@ -81,11 +81,15 @@ class CustomerTable extends Component{
     for(i = 0; i < this.state.customerList.length;++i){
       console.log(this.state.cardNumber + " " + this.state.customerList[i].Card_number);
       if(this.state.cardNumber == this.state.customerList[i].Card_number){
-        console.log("dayum! nandito siya");
         break;
       }
     }
-    this.setState({customerName: this.state.customerList[i].Customer_name, address: this.state.customerList[i].Address});
+    try{
+      this.setState({customerName: this.state.customerList[i].Customer_name, address: this.state.customerList[i].Address, branchID: this.state.customerList[i].Branch_id});
+    }catch(e){
+      alert("Customer not found.");
+    }
+    
   }
 
   addCustomer(e){
@@ -102,8 +106,11 @@ class CustomerTable extends Component{
       this.addCustomer();
       alert("Added a new customer.");
     }else{
+      
+      fetch('http://localhost:1337/update-customer/name='+this.state.customerName+"&address="+this.state.address+"&branch="+this.state.branchID+"&id="+this.state.cardNumber)
+      .then((response)=>{return response.json()})
+      .catch((e)=>{console.log(e)})
       alert("Updated a registered user.");
-
     }
     window.location = "/";
   }
