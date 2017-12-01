@@ -74,7 +74,7 @@ app.get('/all-transaction', function(req, res){
 });
 
 app.get('/all-product', function(req, res){
-	connection.query("select * from PRODUCT", function(error, rows, fields){
+	connection.query("select * from PRODUCT where Product_stock != 0", function(error, rows, fields){
 		if (error){
 			console.log("error in the query");
 		}else{
@@ -196,6 +196,28 @@ app.get('/show-products-by-branch/id=:inputBranch', function(req, res){
 		}else{
 			console.log(rows);
 			res.send(rows);
+		}
+	});
+});
+
+app.get('/buy-product-by-branch/branch=:inputBranch&product=:inputProduct', function(req, res){
+	const newBranch = req.params.inputBranch;
+	const newProduct = req.params.inputProduct;
+	console.log("update PRODUCT set Product_stock = Product_stock - 1 where Branch_id = "+newBranch+" and Product_number = "+newProduct);
+	connection.query("update PRODUCT set Product_stock = Product_stock - 1 where Branch_id = "+newBranch+" and Product_number = "+newProduct, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			connection.query("select * from PRODUCT where Branch_id="+newBranch+" and Product_stock != 0", function(error, rows, fields){
+				if (error){
+					console.log(error);
+					res.send(error);
+				}else{
+					console.log(rows);
+					res.send(rows);
+				}
+			});
 		}
 	});
 });

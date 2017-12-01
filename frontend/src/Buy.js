@@ -8,7 +8,8 @@ class Buy extends Component{
     super(props);
     this.state = {
       shoppingList: [],
-      productList: []
+      productList: [],
+      BranchID: 0
     }
     this.checkOut = this.checkOut.bind(this);
     this.addProduct = this.addProduct.bind(this);
@@ -25,6 +26,7 @@ class Buy extends Component{
   }
 
   setBranch(e){
+    this.setState({BranchID: e.target.value});
     fetch('http://localhost:1337/show-products-by-branch/id='+e.target.value)
     .then((response)=>{return response.json()})
     .then((result)=>{this.setState({productList: result})})
@@ -33,8 +35,19 @@ class Buy extends Component{
   }
 
   addProduct(e){
-    console.log(e.target.value);
-    this.state.shoppingList.push(e.target.value);
+    if (this.state.BranchID == 0){
+      alert('You can only buy from one branch.');
+    }else{
+        console.log(e.target.value);
+        this.state.shoppingList.push(e.target.value);
+        fetch("http://localhost:1337/buy-product-by-branch/branch="+this.state.BranchID+"&product="+e.target.value)
+        .then((response)=>{return response.json()})
+        .then((result)=>{this.setState({productList: result})})
+        .catch((e)=>{
+          console.log(e);
+          alert('Make sure you have the right branch and product.');
+        })
+    }
   }
 
   checkOut(e){

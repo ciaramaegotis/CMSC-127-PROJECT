@@ -45,7 +45,8 @@ CREATE table PRODUCT(
 	Product_price float(10, 5),
 	Product_stock int(10) DEFAULT 0,
 	CONSTRAINT product_product_number_branch_id_pk PRIMARY KEY(Product_number, Branch_id),
-	CONSTRAINT product_branch_id_fk FOREIGN KEY(Branch_id) REFERENCES BRANCH(Branch_id)
+	CONSTRAINT product_branch_id_fk FOREIGN KEY(Branch_id) REFERENCES BRANCH(Branch_id),
+	CONSTRAINT product_product_stock_positive CHECK (Product_stock >= 0)
 );
 
 CREATE table PROMOSTAR(
