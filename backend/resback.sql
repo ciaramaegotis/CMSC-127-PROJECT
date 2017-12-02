@@ -52,30 +52,26 @@ CREATE table PRODUCT(
 CREATE table PROMOSTAR(
 	Control_number int(10) AUTO_INCREMENT,
 	Amount float(10, 5),
-	Expire_date date,
+	Expire_date varchar(10),
 	Product_number int(10),
-	Branch_id int(10),
+	Card_number int(10),
 	CONSTRAINT promostar_control_number_pk PRIMARY KEY(Control_number),
 	CONSTRAINT promostar_product_number_fk FOREIGN KEY(Product_number) REFERENCES PRODUCT(Product_number),
-	CONSTRAINT promostar_branch_id_fk FOREIGN KEY(Branch_id) REFERENCES BRANCH(Branch_id)
+	CONSTRAINT promostar_card_number_fk FOREIGN KEY(Card_number) REFERENCES CUSTOMER(Card_number)
 );
 
 CREATE table PRODUCT_SPENT_PROMOSTAR(
-	Card_number int(10),
 	Transaction_number int(10),
 	Control_number int(10),
 	CONSTRAINT product_spent_promostar_transaction_number_pk PRIMARY KEY(Transaction_number),
-	CONSTRAINT product_spent_promostar_control_number_fk FOREIGN KEY(Control_number) REFERENCES PROMOSTAR(Control_number),
-	CONSTRAINT product_spent_promostar_card_number_fk FOREIGN KEY(Card_number) REFERENCES CUSTOMER(Card_number)
+	CONSTRAINT product_spent_promostar_control_number_fk FOREIGN KEY(Control_number) REFERENCES PROMOSTAR(Control_number)
 );
 
 CREATE table PRODUCT_ACCUMULATED_PROMOSTAR(
-	Card_number int(10),
 	Transaction_number int(10),
 	Control_number int(10),
 	CONSTRAINT product_accumulated_promostar_control_number_pk PRIMARY KEY(Control_number),
-	CONSTRAINT product_accumulated_promostar_transaction_number_fk FOREIGN KEY(Transaction_number) REFERENCES PROMOSTAR(Control_number),
-	CONSTRAINT product_accumulated_promostar_card_number_fk FOREIGN KEY(Card_number) REFERENCES CUSTOMER(Card_number)
+	CONSTRAINT product_accumulated_promostar_transaction_number_fk FOREIGN KEY(Transaction_number) REFERENCES PROMOSTAR(Control_number)
 );
 
 
@@ -112,4 +108,3 @@ insert into PRODUCT(Product_name, Product_price, Branch_id, Product_stock) value
 insert into TRANSACTION(Date_and_time, Cash_payment, Reward_point_payment, Accumulated_reward_points, Card_number, Branch_id) values('2009/07/16 08:28:01', 150, 10, 15, 1, 1);
 
 #promo
-insert into PROMOSTAR(Amount, Expire_date, Product_number, Branch_id) values(2.5, '2017/12/01', 1, 2);

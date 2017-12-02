@@ -83,6 +83,16 @@ app.get('/all-product', function(req, res){
 	});
 });
 
+app.get('/all-product-zero', function(req, res){
+	connection.query("select * from PRODUCT", function(error, rows, fields){
+		if (error){
+			console.log("error in the query");
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
 app.get('/all-promostar', function(req, res){
 	connection.query("select * from PROMOSTAR", function(error, rows, fields){
 		if (error){

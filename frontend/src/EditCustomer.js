@@ -164,6 +164,7 @@ class CustomerTable extends Component{
       <div className = "field">
         <input type="text" value = {this.state.address} onChange={this.handleAddress} placeholder="Permanent Address Address"/>
       </div>
+      <h3 className = "ui dividing header">Reward Points</h3>
       <div className = "field">
         <input type="number" value = {this.state.rewardPoints} onChange={this.handleReward} placeholder="Accumulated Points"/>
       </div>
