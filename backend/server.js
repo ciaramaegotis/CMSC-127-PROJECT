@@ -233,11 +233,10 @@ app.get('/buy-product-by-branch/branch=:inputBranch&product=:inputProduct', func
 	});
 });
 
-app.get('/get-product-total-price/array=:inputArray', function(req, res){
-	var array = req.params.inputArray;
-	array = array.split(',');
-	var query = "select * from PRODUCT where Product_number in("+array+")";
-	connection.query("select * from PRODUCT where Product_number in("+array+")", function(error, rows, fields){
+app.get('/get-product-total-price/id=:inputID', function(req, res){
+	var id = req.params.inputID;
+	var query = "select * from PRODUCT where Product_number = "+id;
+	connection.query("select * from PRODUCT where Product_number = "+id, function(error, rows, fields){
 		if (error){
 			console.log(error);
 			res.send(error);

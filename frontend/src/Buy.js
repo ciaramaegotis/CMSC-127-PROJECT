@@ -57,17 +57,16 @@ class Buy extends Component{
     var i = 0;
     var j = 0;
     var totalAmount = 0;
-    fetch('http://localhost:1337/get-product-total-price/array='+this.state.shoppingList)
-    .then((response)=>{return response.json()})
-    .then((result)=>{
-       this.setState({totalPriceHolder: result});
-       console.log(this.state.totalPriceHolder.length + "what");
-       for (i = 0; i < this.state.totalPriceHolder.length;++i){
-        totalAmount = totalAmount + this.state.totalPriceHolder[i].Product_price;
-       }
-       alert("Total Amount of Purchase: " + totalAmount);
-    })
-    .catch((e)=>{console.log(e)})
+    var totalReward = 0;
+    for(j = 0; j < this.state.shoppingList.length;++j){
+        fetch('http://localhost:1337/get-product-total-price/id='+this.state.shoppingList[j])
+        .then((response)=>{return response.json()})
+        .then((result)=>{
+           this.setState({totalPriceHolder: this.state.totalPriceHolder.concat(result)});
+        })
+        
+        .catch((e)=>{console.log(e)})
+    }
   }
 
   render(){
