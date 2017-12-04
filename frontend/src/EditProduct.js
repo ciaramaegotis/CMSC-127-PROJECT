@@ -13,13 +13,52 @@ class EditProducts extends Component{
       productList: [],
       productPrice: 0,
       ProductName: '',
-      branchID: 0
+      branchID: 0,
+      stock: 0
     }
+    this.handleStock = this.handleStock.bind(this);
     this.handleProductNum = this.handleProductNum.bind(this);
     this.handlePrice = this.handlePrice.bind(this);
     this.handleName = this.handleName.bind(this);
     this.searchProduct = this.searchProduct.bind(this);
     this.handleBranchID = this.handleBranchID.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
+    this.updateProduct = this.updateProduct.bind(this);
+    this.addProduct = this.addProduct.bind(this);
+  }
+
+  handleStock(e){
+    this.setState({stock: e.target.value});
+  }
+
+  deleteProduct(e){
+    fetch("http://localhost:1337/delete-product-by-id-and-branch/id=" + this.state.productNum +"&branch="+this.state.branchID)
+    .then((response)=>{return response.json()})
+    .then((result)=>{alert("You have deleted a product.")})
+    .catch((e)=>{console.log("Error in the query. Check the dependencies.")})
+    window.location = "/";
+  }
+
+  updateProduct(e){
+    if (this.state.productNum == 0){
+      this.addProduct();
+    }else{
+      fetch("http://localhost:1337/update-product-by-id/id="+this.state.productNum+"&product="+this.state.ProductName+"&stock="+this.state.stock+"&price="+this.state.productPrice+"&branch="+this.state.branchID)
+      .then((response)=>{return response.json()})
+      .then((result)=>{console.log(result)})
+      .catch((e)=>{console.log(e)})
+      alert('You have successfully updated a product.');
+      window.location = "/";
+    }
+  }
+
+  addProduct(e){
+    fetch("http://localhost:1337/add-product/product="+this.state.ProductName+"&stock="+this.state.stock+"&price="+this.state.productPrice+"&branch="+this.state.branchID)
+    .then((response)=>{return response.json()})
+    .then((result)=>{console.log(result)})
+    .catch((e)=>{console.log(e)})
+    alert('You have successfully added a product.');
+    window.location = "/";
   }
 
   handleBranchID(e){
@@ -46,7 +85,7 @@ class EditProducts extends Component{
     for(i = 0; i < this.state.productList.length;++i){
       console.log(this.state.productList[i].Product_number + "HAHAHAHA" + this.state.productNum);
       if (this.state.productList[i].Product_number == this.state.productNum){
-        this.setState({ProductName: this.state.productList[i].Product_name, productPrice: this.state.productList[i].Product_price, branchID: this.state.productList[i].Branch_id});
+        this.setState({ProductName: this.state.productList[i].Product_name, productPrice: this.state.productList[i].Product_price, branchID: this.state.productList[i].Branch_id, stock: this.state.productList[i].Product_stock});
         isFound = true;
       }
     }
@@ -91,7 +130,6 @@ class EditProducts extends Component{
 
 
           <form className = "ui form">
-  <h2 className = "ui dividing header">Product Information</h2>
   <div className = "field">
       <h2 className = "ui dividing header">OR</h2> 
       <div className = "ui grid">
@@ -99,6 +137,10 @@ class EditProducts extends Component{
           <input type="text" value = {this.state.ProductName} onChange={this.handleName} placeholder="Product Name"/>
         </div>
       </div> 
+      <h3>Number of Stocks</h3>
+      <div className = "column">
+          <input type="number" value = {this.state.stock} onChange={this.handleStock} placeholder="Number of Stocks"/>
+        </div>
       <div className = "ui grid">
         <div className = "eight wide column">
           <h3>Price</h3>
@@ -118,10 +160,10 @@ class EditProducts extends Component{
   </div>   
 </form>
 <div className = "ui grid">
-  <div className = "four wide column"><button className = "massive ui red inverted button" onClick={()=>{window.location="/"}}>Delete</button></div>
+  <div className = "four wide column"><button className = "massive ui red inverted button" onClick={this.deleteProduct}>Delete</button></div>
   <div className = "six wide column">
   </div>
-  <div className = "six wide column"><button className = "massive ui inverted button" onClick={()=>{window.location="/"}}>Save</button>
+  <div className = "six wide column"><button className = "massive ui inverted button" onClick={this.updateProduct}>Save</button>
   </div>
   <div className = "four wide column"></div>
 </div>

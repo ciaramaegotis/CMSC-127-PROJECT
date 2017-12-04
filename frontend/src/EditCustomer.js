@@ -103,7 +103,6 @@ class CustomerTable extends Component{
   }
 
   addCustomer(e){
-    console.log(this.state.branchID + "HAHAHAHAHAHAHAHAHAHA");
     console.log('http://localhost:1337/new-customer/name='+this.state.customerName+"&address="+this.state.address+"&branch="+this.state.branchID);
     fetch('http://localhost:1337/new-customer/name='+this.state.customerName+"&address="+this.state.address+"&branch="+this.state.branchID)
     .then((response)=>{return response.json()})

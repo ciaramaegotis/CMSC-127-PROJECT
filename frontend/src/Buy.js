@@ -9,7 +9,9 @@ class Buy extends Component{
     this.state = {
       shoppingList: [],
       productList: [],
-      BranchID: 0
+      BranchID: 0,
+      promoList: [],
+      accumulatedRewardPoints: 0
     }
     this.checkOut = this.checkOut.bind(this);
     this.addProduct = this.addProduct.bind(this);
@@ -53,19 +55,24 @@ class Buy extends Component{
   checkOut(e){
     console.log(this.state.shoppingList);
     alert('Thank you for purchasing!');
+    var totalPurchase = 0;
+    var totalPoints = 0;
     window.location = "/";
   }
 
   render(){
     return(
       <div className="center aligned one column row" id = "centerTitle">
+
         <h2 className ="ui center aligned icon header">
           <i className ="circular empty star icon"></i>
           <button className = "massive ui red inverted button" onClick={()=>{window.location="/"}}>Back to Home</button>
           <button className = "massive ui red inverted button" onClick={this.checkOut}>Checkout</button>
-          <div class="ui input">
+          <div className = "ui input">
             <input type="text" placeholder="Branch Number" onChange={this.setBranch}/>
           </div>
+          <br/>
+          <label>Please specify the branch first.</label>
           <div className = "ui grid">
             <div className = "four wide column"></div>
             <div className = "eight wide column">

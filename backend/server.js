@@ -233,4 +233,135 @@ app.get('/buy-product-by-branch/branch=:inputBranch&product=:inputProduct', func
 	});
 });
 
+app.get('/delete-product-by-id-and-branch/id=:inputID&branch=:inputBranch', function(req, res){
+	const idToDelete = req.params.inputID;
+	const branchToDelete = req.params.inputBranch;
+	console.log("delete from PRODUCT where Product_number = " + idToDelete + " and Branch_id = " + branchToDelete);
+	connection.query("delete from PRODUCT where Product_number = " + idToDelete + " and Branch_id = " + branchToDelete, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/update-product-by-id/id=:newID&product=:newName&stock=:newStock&price=:newPrice&branch=:newBranch', function(req, res){
+	const productID = req.params.newID;
+	const productName = req.params.newName;
+	const productStock = req.params.newStock;
+	const productPrice = req.params.newPrice;
+	const productBranch = req.params.newBranch;
+	console.log("update PRODUCT set Product_name = \"" + productName + "\", Product_stock = " + productStock + ", Product_price = " + productPrice + ", Branch_id = " + productBranch + " where Product_number = " + productID);
+	connection.query("update PRODUCT set Product_name = \"" + productName + "\", Product_stock = " + productStock + ", Product_price = " + productPrice + ", Branch_id = " + productBranch + " where Product_number = " + productID, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+
+app.get('/add-product/product=:newName&stock=:newStock&price=:newPrice&branch=:newBranch', function(req, res){
+	const productName = req.params.newName;
+	const productStock = req.params.newStock;
+	const productPrice = req.params.newPrice;
+	const productBranch = req.params.newBranch;
+	console.log("insert into PRODUCT(Product_name, Product_stock, Product_price, Branch_id) values(\""+productName+"\", "+productStock+", "+productPrice+", "+productBranch+")");
+	connection.query("insert into PRODUCT(Product_name, Product_stock, Product_price, Branch_id) values(\""+productName+"\", "+productStock+", "+productPrice+", "+productBranch+")", function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/delete-branch/branch=:inputBranchID', function(req, res){
+	const toDelete = req.params.inputBranchID;
+	console.log("delete from BRANCH where Branch_id = " + toDelete);
+	connection.query("delete from BRANCH where Branch_id = " + toDelete, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/add-branch/branchName=:inputBranchName&location=:inputBranchLocation', function(req, res){
+	const newBranchName = req.params.inputBranchName;
+	const newLocation = req.params.inputBranchLocation;
+	console.log("insert into BRANCH(Branch_name, Branch_location) values(\""+newBranchName+"\", \""+newLocation+"\")");
+	connection.query("insert into BRANCH(Branch_name, Branch_location) values(\""+newBranchName+"\", \""+newLocation+"\")", function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/update-branch-by-id/branch=:inputBranchID&branchName=:inputBranchName&branchLocation=:inputBranchLocation', function(req, res){
+	const branchID = inputBranchID;
+	const branchName = inputBranchName;
+	const branchLocation = inputBranchLocation;
+	console.log("update BRANCH set Branch_name=\""+inputBranchName+"\", Branch_location=\""+inputBranchLocation+"\" where Branch_id = "+inputBranchID);
+	connection.query("update BRANCH set Branch_name=\""+inputBranchName+"\", Branch_location=\""+inputBranchLocation+"\" where Branch_id = "+inputBranchID, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/add-promostar/amount=:inputAmount&productNum=:inputProductNum&branch=:inputBranch&expireDate=:inputExpireDate', function(req, res){
+	const amount = req.params.inputAmount;
+	const product = req.params.inputProductNum;
+	const branch = req.params.inputBranch;
+	const expireDate = req.params.inputExpireDate;
+	console.log("insert into PROMOSTAR(Amount ,Product_number, Branch_id, Expire_date) values("+amount+", "+product+", "+branch+", str_to_date(\""+expireDate+"\"))");
+	connection.query("insert into PROMOSTAR(Amount ,Product_number, Branch_id, Expire_date) values("+amount+", "+product+", "+branch+", str_to_date(\""+expireDate+"\", \"%Y-%m-%d\"))", function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/edit-promostar/amount=:inputAmount&productNum=:inputProductNum&branch=:inputBranch&expireDate=:inputExpireDate&control=:controlNum', function(req, res){
+	const amount = req.params.inputAmount;
+	const product = req.params.inputProductNum;
+	const branch = req.params.inputBranch;
+	const expireDate = req.params.inputExpireDate;
+	const controlNum = req.params.controlNum;
+	console.log("update PROMOSTAR set Amount = "+amount+",Product_number = "+product+", Branch_id = "+branch+", Expire_date = str_to_date(\""+expireDate+"\", \"%Y-%m-%d\") where Control_number =  "+controlNum);
+	connection.query("update PROMOSTAR set Amount = "+amount+",Product_number = "+product+", Branch_id = "+branch+", Expire_date = str_to_date(\""+expireDate+"\", \"%Y-%m-%d\") where Control_number =  "+controlNum, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
 app.listen(1337);
