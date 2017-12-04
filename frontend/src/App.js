@@ -16,6 +16,8 @@ import ViewBranches from './ViewBranches';
 import ViewCustomers from './ViewCustomers';
 import ViewTransactions from './ViewTransactions';
 import ViewPromostar from './ViewPromostar';
+import ViewSpentPromostar from './ViewSpentPromostar';
+import ViewAccumulatedPromostar from './ViewAccumulatedPromostar';
 
 class App extends Component {
   render() {
@@ -39,6 +41,8 @@ class App extends Component {
         <Route exact={true} path="/ViewCustomers" component={ViewCustomers}/>
         <Route exact={true} path="/ViewTransactions" component={ViewTransactions}/>
         <Route exact={true} path="/ViewPromostar" component={ViewPromostar}/>
+        <Route exact={true} path="/ViewAccumulatedPromostar" component={ViewAccumulatedPromostar}/>
+        <Route exact={true} path="/ViewSpentPromostar" component={ViewSpentPromostar}/>
         </div>
       </Router>
       </div>

@@ -340,6 +340,7 @@ app.get('/update-branch-by-id/branch=:inputBranchID&branchName=:inputBranchName&
 		}else{
 			console.log(rows);
 			res.send(rows);
+			console.log("SUCESS in the query");
 		}
 	});
 });

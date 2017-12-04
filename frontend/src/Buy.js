@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './assets/semanticUI/semantic.min.css';
 import './assets/main.css';
 
+var sleep = require('system-sleep');
 
 class Buy extends Component{
   constructor(props){
@@ -12,12 +13,20 @@ class Buy extends Component{
       BranchID: 0,
       promoList: [],
       accumulatedRewardPoints: 0,
-      totalPriceHolder: []
+      totalPriceHolder: [],
+      totalAmount: 0
     }
     this.checkOut = this.checkOut.bind(this);
     this.addProduct = this.addProduct.bind(this);
     this.setBranch = this.setBranch.bind(this);
+    this.updateTotalAmount = this.updateTotalAmount.bind(this);
   }
+
+  updateTotalAmount(newValue){
+    this.setState({totalAmount: this.state.totalAmount+newValue});
+    console.log(this.state.totalAmount);
+  }
+
 
   componentDidMount(){
     fetch('http://localhost:1337/all-product')
@@ -58,15 +67,17 @@ class Buy extends Component{
     var j = 0;
     var totalAmount = 0;
     var totalReward = 0;
+
     for(j = 0; j < this.state.shoppingList.length;++j){
         fetch('http://localhost:1337/get-product-total-price/id='+this.state.shoppingList[j])
         .then((response)=>{return response.json()})
         .then((result)=>{
-           this.setState({totalPriceHolder: this.state.totalPriceHolder.concat(result)});
+           this.setState({totalPriceHolder: result});
+           this.updateTotalAmount(this.state.totalPriceHolder[0].Product_price);
         })
-        
         .catch((e)=>{console.log(e)})
-    }
+    }  
+      window.location = "/";
   }
 
   render(){
