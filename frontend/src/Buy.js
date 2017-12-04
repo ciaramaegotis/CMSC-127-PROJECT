@@ -2,108 +2,127 @@ import React, { Component } from 'react';
 import './assets/semanticUI/semantic.min.css';
 import './assets/main.css';
 
-var sleep = require('system-sleep');
 
 class Buy extends Component{
   constructor(props){
     super(props);
     this.state = {
-      shoppingList: [],
+      searchQuery: '',
       productList: [],
-      BranchID: 0,
-      promoList: [],
-      accumulatedRewardPoints: 0,
-      totalPriceHolder: [],
-      totalAmount: 0
+      searchQuantity: 0,
+      inputBranch: 0,
+      totalAmount: 0,
+      totalRewards: 0
     }
+    this.handleQuantity = this.handleQuantity.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleBranch = this.handleBranch.bind(this);
+    this.addToCart = this.addToCart.bind(this);
     this.checkOut = this.checkOut.bind(this);
-    this.addProduct = this.addProduct.bind(this);
-    this.setBranch = this.setBranch.bind(this);
-    this.updateTotalAmount = this.updateTotalAmount.bind(this);
-  }
-
-  updateTotalAmount(newValue){
-    this.setState({totalAmount: this.state.totalAmount+newValue});
-    console.log(this.state.totalAmount);
-  }
-
-
-  componentDidMount(){
-    fetch('http://localhost:1337/all-product')
-    .then((response)=>{return response.json()})
-    .then((result)=>{this.setState({productList: result})})
-    .then(()=>{console.log(this.state.productList);})
-    .catch((e)=>{console.log(e);});
-
-  }
-
-  setBranch(e){
-    this.setState({BranchID: e.target.value});
-    fetch('http://localhost:1337/show-products-by-branch/id='+e.target.value)
-    .then((response)=>{return response.json()})
-    .then((result)=>{this.setState({productList: result})})
-    .then(()=>{console.log(this.state.productList)})
-    .catch((e)=>{console.log(e)})
-  }
-
-  addProduct(e){
-    if (this.state.BranchID == 0){
-      alert('You can only buy from one branch.');
-    }else{
-        console.log(e.target.value);
-        this.state.shoppingList.push(e.target.value);
-        fetch("http://localhost:1337/buy-product-by-branch/branch="+this.state.BranchID+"&product="+e.target.value)
-        .then((response)=>{return response.json()})
-        .then((result)=>{this.setState({productList: result})})
-        .catch((e)=>{
-          console.log(e);
-          alert('Make sure you have the right branch and product.');
-        })
-    }
   }
 
   checkOut(e){
-    var i = 0;
-    var j = 0;
-    var totalAmount = 0;
-    var totalReward = 0;
+    alert("Total: " + this.state.totalAmount);
+    /*add to transactions*/
+    var cardNumber = prompt("Enter card number: ");
 
-    for(j = 0; j < this.state.shoppingList.length;++j){
-        fetch('http://localhost:1337/get-product-total-price/id='+this.state.shoppingList[j])
-        .then((response)=>{return response.json()})
-        .then((result)=>{
-           this.setState({totalPriceHolder: result});
-           this.updateTotalAmount(this.state.totalPriceHolder[0].Product_price);
-        })
-        .catch((e)=>{console.log(e)})
-    }  
-      window.location = "/";
+    fetch('http://localhost:1337/add-transaction/cash='+this.state.totalAmount+"&accumulated="+Math.floor(this.state.totalAmount/50)+"&card="+cardNumber+"&branch="+this.state.searchBranch)
+    .then((response) => {return response.json()})
+    .then((result)=> {})
+    .then(()=>{})
+    .catch((e)=>{console.log(e);});
+
+
+    window.location = "/";
+  }
+
+  addToCart(e){
+    if (this.state.productList[0].Product_stock == 0){
+      alert("Product not available!");
+    }else{
+      if (this.state.searchQuantity > this.state.productList[0].Product_stock){
+        alert("Number of stocks not enough");
+      }else{
+        console.log(this.state.searchQuantity + "huhuhuhuhu");
+        console.log(this.state.productList[0].Product_price);
+        console.log(this.state.searchQuantity*this.state.productList[0].Product_price);
+        this.state.totalAmount = this.state.totalAmount + (this.state.searchQuantity*this.state.productList[0].Product_price);
+        console.log(this.state.totalAmount);
+
+        fetch("http://localhost:1337/buy-product-by-branch/branch="+this.state.searchBranch+"&product="+this.state.searchQuery+"&quantity="+this.state.searchQuantity)
+        .then((response) => {return response.json()})
+        .then((result)=> {this.setState({productList: result})})
+        .then(()=>{console.log(this.state.productList)})
+        .catch((e)=>{console.log(e);});
+      }
+    }
+
+  }
+
+  componentDidMount(){
+    fetch('http://localhost:1337/all-product')
+    .then((response) => {return response.json()})
+    .then((result)=> {this.setState({productList: result})})
+    .then(()=>{console.log(this.state.productList)})
+    .catch((e)=>{console.log(e);});
+  }
+
+  handleBranch(e){
+    this.setState({searchBranch: e.target.value});
+    fetch("http://localhost:1337/show-products-by-branch/id="+e.target.value)
+    .then((response)=>{return response.json()})
+    .then((result)=>{this.setState({productList: result})})
+    .then(()=>{console.log(this.state.productList)})
+    .then(()=>{this.setState(this.state)})
+    .catch((e)=>{
+      console.log(e);
+    })
+  }
+
+
+  handleQuantity(e){
+    this.setState({searchQuantity: e.target.value});
+  }
+
+  handleSearch(e){
+    this.setState({searchQuery: e.target.value});
+    fetch('http://localhost:1337/search-product-by-id/id='+e.target.value)
+    .then((response)=>{return response.json()})
+    .then((result)=>{this.setState({productList: result})})
+    .then(()=>{console.log(this.state.productList)})
+    .then(()=>{this.setState(this.state)})
+    .catch((e)=>{
+      console.log(e);
+    })
   }
 
   render(){
     return(
       <div className="center aligned one column row" id = "centerTitle">
-
         <h2 className ="ui center aligned icon header">
           <i className ="circular empty star icon"></i>
-          <button className = "massive ui red inverted button" onClick={()=>{window.location="/"}}>Back to Home</button>
-          <button className = "massive ui red inverted button" onClick={this.checkOut}>Checkout</button>
-          <div className = "ui input">
-            <input type="text" placeholder="Branch Number" onChange={this.setBranch}/>
-          </div>
-          <br/>
-          <label>Please specify the branch first.</label>
           <div className = "ui grid">
             <div className = "four wide column"></div>
             <div className = "eight wide column">
-              <table className ="ui fixed small selectable celled inverted blue table">
+            <div className = "ui small input">
+              <input type="number" onChange={this.handleBranch} value = {this.state.searchBranch} placeholder="Enter Branch..."/>
+            </div>
+            <div className = "ui small input">
+              <input type="text" onChange={this.handleSearch} value = {this.state.searchQuery} placeholder="Search Product Number..."/>
+            </div>
+            <div className = "ui small input">
+              <input type="number" onChange={this.handleQuantity} value = {this.state.searchQuantity} placeholder="Enter Quantity..."/>
+            </div>
+            <button className = "massive ui inverted button" onClick={this.addToCart}>Add to Cart</button>
+              <table className = "ui small selectable celled inverted blue table">
       <thead>
         <tr>
-          <th>Items Left</th>
+          <th>Product Number</th>
+          <th>Branch ID</th>
           <th>Product Name</th>
           <th>Product Price</th>
-          <th>Branch ID</th>
-          <th>Buy</th>
+          <th>Product Stock</th>
+
         </tr>
       </thead>
       <tbody>
@@ -112,13 +131,11 @@ class Buy extends Component{
               (item, index)=>{
                 return(
                   <tr key={index}>
-                    <th>{item.Product_stock}</th>
+                    <th>{item.Product_number}</th>
+                    <th>{item.Branch_id}</th>
                     <th>{item.Product_name}</th>
                     <th>{item.Product_price}</th>
-                    <th>{item.Branch_id}</th>
-                    <th id="center">
-                      <button value = {item.Product_number} className = "ui inverted button" onClick={this.addProduct}>Buy</button>
-                    </th>
+                    <th>{item.Product_stock}</th>
                   </tr>
                 )
               }
@@ -130,6 +147,7 @@ class Buy extends Component{
             <div className = "four wide column"></div>
           </div>
     <br/>
+    <button className = "massive ui inverted button" onClick={this.checkOut}>Checkout</button>
     </h2>
     </div>
     );

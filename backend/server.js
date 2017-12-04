@@ -211,11 +211,12 @@ app.get('/show-products-by-branch/id=:inputBranch', function(req, res){
 	});
 });
 
-app.get('/buy-product-by-branch/branch=:inputBranch&product=:inputProduct', function(req, res){
+app.get('/buy-product-by-branch/branch=:inputBranch&product=:inputProduct&quantity=:inputQuantity', function(req, res){
 	const newBranch = req.params.inputBranch;
 	const newProduct = req.params.inputProduct;
-	console.log("update PRODUCT set Product_stock = Product_stock - 1 where Branch_id = "+newBranch+" and Product_number = "+newProduct);
-	connection.query("update PRODUCT set Product_stock = Product_stock - 1 where Branch_id = "+newBranch+" and Product_number = "+newProduct, function(error, rows, fields){
+	const newQuantity = req.params.inputQuantity;
+	console.log("update PRODUCT set Product_stock = Product_stock - "+newQuantity+" where Branch_id = "+newBranch+" and Product_number = "+newProduct);
+	connection.query("update PRODUCT set Product_stock = Product_stock - "+newQuantity+" where Branch_id = "+newBranch+" and Product_number = "+newProduct, function(error, rows, fields){
 		if (error){
 			console.log(error);
 			res.send(error);
@@ -370,6 +371,41 @@ app.get('/edit-promostar/amount=:inputAmount&productNum=:inputProductNum&branch=
 	const controlNum = req.params.controlNum;
 	console.log("update PROMOSTAR set Amount = "+amount+",Product_number = "+product+", Branch_id = "+branch+", Expire_date = str_to_date(\""+expireDate+"\", \"%Y-%m-%d\") where Control_number =  "+controlNum);
 	connection.query("update PROMOSTAR set Amount = "+amount+",Product_number = "+product+", Branch_id = "+branch+", Expire_date = str_to_date(\""+expireDate+"\", \"%Y-%m-%d\") where Control_number =  "+controlNum, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+app.get('/search-product-by-id/id=:inputID', function(req, res){
+	const id = req.params.inputID;
+	console.log("select * from PRODUCT where Product_number=" + id);
+	connection.query("select * from PRODUCT where Product_number=" + id, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			console.log(rows);
+			console.log("nice one");
+			res.send(rows);
+		}
+	});
+	
+});
+
+app.get("/add-transaction/cash=:inputAmount&accumulated=:inputAccmumulated&card=:inputCard&branch=:inputBranch", function(req, res){
+	const now = Date.now().toISOString().slice(0,10);;
+	console.log(now);
+	const inputAmount = req.params.inputAmount;
+	const inputAccmumulated = req.params.inputAccmumulated;
+	const inputCard = req.params.inputCard;
+	const inputBranch = req.params.inputBranch;
+	console.log("insert into TRANSACTION(Cash_payment, Accumulated_reward_points, Card_number, Branch_id) values("+inputAmount+", "+inputAccmumulated+", "+inputCard+", "+inputBranch+")");
+	connection.query("insert into TRANSACTION(Cash_payment, Accumulated_reward_points, Card_number, Branch_id) values("+inputAmount+", "+inputAccmumulated+", "+inputCard+", "+inputBranch+")", function(error, rows, fields){
 		if (error){
 			console.log(error);
 			res.send(error);
