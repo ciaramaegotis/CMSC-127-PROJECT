@@ -78,17 +78,6 @@ CREATE table PRODUCT_ACCUMULATED_PROMOSTAR(
 	CONSTRAINT product_accumulated_promostar_card_number_fk FOREIGN KEY(Card_number) REFERENCES CUSTOMER(Card_number)
 );
 
-DELIMITER //
-
-CREATE TRIGGER UPDATE_REWARD_POINT
-	AFTER INSERT ON TRANSACTION
-	FOR EACH ROW
-	BEGIN
-		UPDATE CUSTOMER,TRANSACTION SET CUSTOMER.Reward_points = CUSTOMER.Reward_points+(floor(TRANSACTION.Cash_payment/50))
-		where TRANSACTION.Card_number = CUSTOMER.Card_number;
-	END//
-DELIMITER ;
-
 
 #BRANCH(​ Branch​ ​ ID​ , ​ ​ Branch​ ​ Name,​ ​ Location)
 insert into BRANCH(Branch_name, Branch_location) values("Pruto Store", "Near UPLB");

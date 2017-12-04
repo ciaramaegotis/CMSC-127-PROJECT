@@ -108,7 +108,7 @@ class Buy extends Component{
               <input type="number" onChange={this.handleBranch} value = {this.state.searchBranch} placeholder="Enter Branch..."/>
             </div>
             <div className = "ui small input">
-              <input type="text" onChange={this.handleSearch} value = {this.state.searchQuery} placeholder="Search Product Number..."/>
+              <input type="number" onChange={this.handleSearch} value = {this.state.searchQuery} placeholder="Search Product Number..."/>
             </div>
             <div className = "ui small input">
               <input type="number" onChange={this.handleQuantity} value = {this.state.searchQuantity} placeholder="Enter Quantity..."/>
@@ -153,5 +153,4 @@ class Buy extends Component{
     );
   }
 }
-
 export default Buy;
