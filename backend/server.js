@@ -233,17 +233,20 @@ app.get('/buy-product-by-branch/branch=:inputBranch&product=:inputProduct', func
 	});
 });
 
-app.get('/get-product-price/id=:inputID', function(req, res){
-	const id = req.params.inputID;
-	console.log("select Product_price from PRODUCT where Product_number = "+id);
-	connection.query("select Product_price from PRODUCT where Product_number = "+id, function(error, rows, fields){
+app.get('/get-product-total-price/array=:inputArray', function(req, res){
+	var array = req.params.inputArray;
+	array = array.split(',');
+	var query = "select * from PRODUCT where Product_number in("+array+")";
+	connection.query("select * from PRODUCT where Product_number in("+array+")", function(error, rows, fields){
 		if (error){
 			console.log(error);
 			res.send(error);
 		}else{
+			console.log(rows);
 			res.send(rows);
 		}
 	});
+	
 });
 
 app.get('/delete-product-by-id-and-branch/id=:inputID&branch=:inputBranch', function(req, res){

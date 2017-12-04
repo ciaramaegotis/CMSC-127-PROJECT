@@ -12,7 +12,7 @@ class Buy extends Component{
       BranchID: 0,
       promoList: [],
       accumulatedRewardPoints: 0,
-      totalPurchase: 0
+      totalPriceHolder: []
     }
     this.checkOut = this.checkOut.bind(this);
     this.addProduct = this.addProduct.bind(this);
@@ -56,16 +56,18 @@ class Buy extends Component{
   checkOut(e){
     var i = 0;
     var j = 0;
-    var totalPoints = 0;
-    for(i = 0; i < this.state.shoppingList.length;++i){
-      for(j=0; j<this.state.productList.length;++i){
-        console.log("hehehe");
-      }
-    }
-    
-    console.log(this.state.shoppingList);
-    alert('Thank you for purchasing!\nTotal purchase: '+this.state.totalPurchase);
-    window.location = "/";
+    var totalAmount = 0;
+    fetch('http://localhost:1337/get-product-total-price/array='+this.state.shoppingList)
+    .then((response)=>{return response.json()})
+    .then((result)=>{
+       this.setState({totalPriceHolder: result});
+       console.log(this.state.totalPriceHolder.length + "what");
+       for (i = 0; i < this.state.totalPriceHolder.length;++i){
+        totalAmount = totalAmount + this.state.totalPriceHolder[i].Product_price;
+       }
+       alert("Total Amount of Purchase: " + totalAmount);
+    })
+    .catch((e)=>{console.log(e)})
   }
 
   render(){
