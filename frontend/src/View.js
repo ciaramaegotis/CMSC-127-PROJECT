@@ -12,6 +12,7 @@ class ViewStocks extends Component {
             <button className = "massive ui inverted button" onClick={()=>{window.location="/ViewBranches"}}>View Branches</button>
             <button className = "massive ui inverted button" onClick={()=>{window.location="/ViewCustomers"}}>View Customers</button>
             <button className = "massive ui inverted button" onClick={()=>{window.location="/ViewTransactions"}}>View Transactions</button>
+            <button className = "massive ui inverted button" onClick={()=>{window.location="/ViewPromostar"}}>View Promostars</button>
           </div>
           </h2>
       </div>

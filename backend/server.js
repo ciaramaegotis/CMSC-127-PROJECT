@@ -233,6 +233,19 @@ app.get('/buy-product-by-branch/branch=:inputBranch&product=:inputProduct', func
 	});
 });
 
+app.get('/get-product-price/id=:inputID', function(req, res){
+	const id = req.params.inputID;
+	console.log("select Product_price from PRODUCT where Product_number = "+id);
+	connection.query("select Product_price from PRODUCT where Product_number = "+id, function(error, rows, fields){
+		if (error){
+			console.log(error);
+			res.send(error);
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
 app.get('/delete-product-by-id-and-branch/id=:inputID&branch=:inputBranch', function(req, res){
 	const idToDelete = req.params.inputID;
 	const branchToDelete = req.params.inputBranch;

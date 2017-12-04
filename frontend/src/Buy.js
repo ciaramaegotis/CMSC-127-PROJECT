@@ -11,7 +11,8 @@ class Buy extends Component{
       productList: [],
       BranchID: 0,
       promoList: [],
-      accumulatedRewardPoints: 0
+      accumulatedRewardPoints: 0,
+      totalPurchase: 0
     }
     this.checkOut = this.checkOut.bind(this);
     this.addProduct = this.addProduct.bind(this);
@@ -53,10 +54,17 @@ class Buy extends Component{
   }
 
   checkOut(e){
-    console.log(this.state.shoppingList);
-    alert('Thank you for purchasing!');
-    var totalPurchase = 0;
+    var i = 0;
+    var j = 0;
     var totalPoints = 0;
+    for(i = 0; i < this.state.shoppingList.length;++i){
+      for(j=0; j<this.state.productList.length;++i){
+        console.log("hehehe");
+      }
+    }
+    
+    console.log(this.state.shoppingList);
+    alert('Thank you for purchasing!\nTotal purchase: '+this.state.totalPurchase);
     window.location = "/";
   }
 
