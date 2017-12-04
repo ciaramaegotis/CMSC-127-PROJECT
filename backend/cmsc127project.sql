@@ -24,7 +24,7 @@ CREATE table CUSTOMER(
 
 CREATE table TRANSACTION(
 	Transaction_number int(10) AUTO_INCREMENT,
-	Date_and_time datetime,
+	Date_and_time date,
 	Cash_payment float(10, 5),
 	Reward_point_payment int(10),
 	Accumulated_reward_points int(10),

@@ -398,14 +398,14 @@ app.get('/search-product-by-id/id=:inputID', function(req, res){
 });
 
 app.get("/add-transaction/cash=:inputAmount&accumulated=:inputAccmumulated&card=:inputCard&branch=:inputBranch", function(req, res){
-	const now = Date.now().toISOString().slice(0,10);;
+	const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
 	console.log(now);
 	const inputAmount = req.params.inputAmount;
 	const inputAccmumulated = req.params.inputAccmumulated;
 	const inputCard = req.params.inputCard;
 	const inputBranch = req.params.inputBranch;
-	console.log("insert into TRANSACTION(Cash_payment, Accumulated_reward_points, Card_number, Branch_id) values("+inputAmount+", "+inputAccmumulated+", "+inputCard+", "+inputBranch+")");
-	connection.query("insert into TRANSACTION(Cash_payment, Accumulated_reward_points, Card_number, Branch_id) values("+inputAmount+", "+inputAccmumulated+", "+inputCard+", "+inputBranch+")", function(error, rows, fields){
+	console.log("insert into TRANSACTION(Cash_payment, Accumulated_reward_points, Card_number, Branch_id, Date_and_time) values("+inputAmount+", "+inputAccmumulated+", "+inputCard+", "+inputBranch+", STR_TO_DATE(\""+now+"\", \"%Y-%m-%d\")");
+	connection.query("insert into TRANSACTION(Cash_payment, Accumulated_reward_points, Card_number, Branch_id, Date_and_time) values("+inputAmount+", "+inputAccmumulated+", "+inputCard+", "+inputBranch+", STR_TO_DATE(\""+now.substring(0,10)+"\", \"%Y-%m-%d\"))", function(error, rows, fields){
 		if (error){
 			console.log(error);
 			res.send(error);
